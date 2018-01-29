@@ -1,16 +1,16 @@
 ﻿/*******************************************************************************************
 Author: Jefferson Scomacao - 2017
 Description: MVCC for Unity
-AppElement.cs : 
+AppModelBase.cs : 
 
-Base Element class for MVCC
+Entry point for Model inner work, base class, inherit from this
+
+This should contains constants, base methods, static things
 
 *******************************************************************************************/
 
-using UnityEngine;
+public class AppModelBase {
 
-public class AppElement : MonoBehaviour {
 
-	// Gives access to the application and all instances.
-	public App app { get { return GameObject.FindObjectOfType<App>(); }}
+
 }

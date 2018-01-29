@@ -1,62 +1,33 @@
 ﻿/*******************************************************************************************
 Author: Jefferson Scomacao - 2017
 Description: MVCC for Unity
+App.cs : 
 
-App.cs : Framework entry point, should be present in the scene before any other script
+Base class for the MVCC
 
 *******************************************************************************************/
 
-
-using System.Collections.Generic;
 using UnityEngine;
 
 public class App : MonoBehaviour {
 
-	public AppModel model { get; set; }
+	public AppModel model;
 
-    public bool IsPersistent = false;
-
-    List<AppController> allControllers = new List<AppController>();
-
-    /*
-     
-    Use this script to handle:
-    
-    # Loaders
-    # Progress bars
-    # Modal views/screens references
-    # Unique objects important to system function     
-         
-    */
-
-    void Awake ()
+	void Awake ()
 	{
-		model = new AppModel();
-
-        if (IsPersistent)
-        {
-            DontDestroyOnLoad(this);
-        }
+        model = new AppModel();
 	}
 
-	public void Notify(int p_event_path, UnityEngine.Object p_target, List<CustomParams> p_data)
+	public void Notify(NOTIFYEVENT p_event_path, UnityEngine.Object p_target, params object[] p_data)
 	{
-		foreach(AppController c in allControllers)
+		AppController[] controller_list = GetAllControllers();
+		foreach(AppController c in controller_list)
 		{
 			c.OnNotification(p_event_path,p_target,p_data);
 		}
 	}
 
-    public void RegisterController(AppController newController)
-    {
-        if (allControllers.IndexOf(newController) < 0)
-            allControllers.Add(newController);
-    }
+	// Fetches all scene Controllers.
+	public AppController[] GetAllControllers() { return GameObject.FindObjectsOfType<AppController>(); }
 
-    public void UnRegisterController(AppController newController)
-    {
-        var x = allControllers.IndexOf(newController);
-        if (x >= 0)
-            allControllers.RemoveAt(x);
-    }
 }
