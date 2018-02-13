@@ -1,2 +1,0 @@
-# mvccunity
-MVCC Framework base
